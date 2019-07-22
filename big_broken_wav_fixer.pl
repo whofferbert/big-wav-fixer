@@ -16,9 +16,9 @@ use Getopt::Long;			# handle arguments
 my $prog = basename($0);		# script name
 my ($infile, $outfile);			# in/out files
 
-my @header_try_bytes = (44, 56);	# array of headers to try (learned from experience/testing)
+my @header_try_bytes = (44, 56);	# array of header bytes to try
 
-my %header_info;			# hash to hold all the extraneous header info
+my %header_info;			# hash to hold all header info
 
 my $debug_on;				# extra output
 
@@ -40,8 +40,8 @@ sub usage {
   ptions:
 
     -header-bytes [INT]
-      Provide a number of wav header bytes, if not one of the defaults:
-      ($header_bytes_str)
+      Provide another number of wav header bytes to test.
+      Default byte numbers to try: ($header_bytes_str)
 
     -help
       Print this help.
@@ -146,7 +146,6 @@ sub write_outfile_in_chunks {
       $header_info{totalsize} = pack('l', $remaining_data + $header_info{bytes} - 8);
       $header_info{datasize} = pack('l', $remaining_data);
     } else {
-      #$header_info{totalsize} = pack('l', $max_wav_data_chunk + $header_info{bytes} - 8);
       $header_info{totalsize} = pack('l', $max_wav_data_chunk + $header_info{bytes});
       $header_info{datasize} = pack('l', $max_wav_data_chunk);
     }
