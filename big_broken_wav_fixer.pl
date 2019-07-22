@@ -71,7 +71,7 @@ sub check_required_args {
 
 sub handle_args {
   if ( Getopt::Long::GetOptions(
-    'header-bytes=i' => sub{push @header_try_bytes, $_[1]},
+    'header-bytes=i' => sub{unshift @header_try_bytes, $_[1]},
     'debug' => \$debug_on,
     'h|help' => \&usage,
      ) )   {
@@ -85,15 +85,11 @@ sub err {
   exit 2;
 }
 
-sub warn {
-  my $msg=shift;
-  say STDERR $msg;
-}
-
 sub get_header_info {
   # for all the header bytes we can try,
   # iterate over the headers, testing for expected data
   for my $header_bytes (@header_try_bytes) {
+    next if exists $header_info{top};
     say "Testing header size $header_bytes" if $debug_on;
     open my $FH, "<:raw", $infile;
     my $data;
@@ -124,8 +120,8 @@ sub ret_header_chunk {
 }
 
 sub write_outfile_in_chunks {
-  #my $max_wav_size = 1667718192;		# initial value used...
-  my $max_wav_size = 2147483640;		# needs to be less than 2147483647 and divisible by 8
+  #my $max_wav_size = 1667718192;	# initial value used...
+  my $max_wav_size = 2147483640;	# needs to be less than 2147483647 and divisible by 8
 
   my $header_bytes = $header_info{bytes};
   my $max_wav_data_chunk = $max_wav_size - $header_bytes;
