@@ -19,7 +19,7 @@ This script can take a big, not-fully-addressable wav file, and rewrite it into 
 
     Basic Usage: big_broken_wav_fixer.pl [path/to/infile.wav] [outfile_name]
 
-  ptions:
+  Options:
 
     -header-bytes [INT]
       Provide another number of wav header bytes to test. 

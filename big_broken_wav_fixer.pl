@@ -37,7 +37,7 @@ sub usage {
 
     Basic Usage: $prog [path/to/infile.wav] [outfile_name]
 
-  ptions:
+  Options:
 
     -header-bytes [INT]
       Provide another number of wav header bytes to test.
